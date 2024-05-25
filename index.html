@@ -17,7 +17,7 @@
   .send-money-form {
     max-width: 300px;
     margin: auto;
-    background-color: #3268a8;
+    background-color: #f9f9g9;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -44,12 +44,14 @@
     margin: 2px 2px;
     cursor: pointer;
     border-radius: 25px;
+    border-color:#063970;
   }
   .submit-button::after {
     content: ' ▶'; /* Right arrow */
     font-size: 16px;
   }
   .balance {
+    color:black;
     margin-top: 20px;
   }
 </style>
@@ -58,7 +60,7 @@
 
 <div class="send-money-form">
   <form id="send-money-form">
-  <h2>Bank Area</h2>
+  <h2 style="color:#063970">Bank Area</h2>
   <div class="form-field">
     <label for="to">For</label>
     <input type="text" id="account-number" name="account-number" placeholder="Account name">
