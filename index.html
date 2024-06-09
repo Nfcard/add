@@ -3,320 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank area</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Enter your PIN</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 20px;
+            background: linear-gradient(to right, #71c2f5 0%, #fa71cd 100%);
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            color: #333;
-        }
-  .navbar {
-    
-    margin:-15px;
-            display: flex;
             align-items: center;
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-    border-radius:50px;
-    margin-bottom:25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            margin: 0;
         }
-        .navbar button {
-            background-color: white;
-            border: none;
-            color: black;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-right: 10px;
-            padding: 10px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+        .navbar {
+            width: 100%;
+            background-color: #hdhrrb;
+            overflow: hidden;
+          height:15%;
         }
-        .navbar button:hover {
-            background-color: #00408a;
-        }
-        .navbar .title {
-            flex-grow: 1;
+
+        .navbar h2 {
+            float: center;
+            display: block;
+            background: radial-gradient(circle at -8.9% 51.2%, rgb(255, 124, 0) 0%, rgb(255, 124, 0) 15.9%, rgb(255, 163, 77) 15.9%, rgb(255, 163, 77) 24.4%, rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%);
+          
+          -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
             text-align: center;
-            font-weight: bold;
-          font-size:18px;
+            padding: 14px 20px;
+            font-weight:bold;
         }
-        .form-header {
+
+
+        .pin-container {
+            background-color: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            height: 250px;
+            margin-top: 50px; /* Add margin to push it below the navbar */
+        }
+
+        .pin-container h1 {
+            font-size: 1.5em;
             margin-bottom: 20px;
         }
-        .form-header label {
-            font-weight: bold;
-            font-size: 18px;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-header input {
-            width: 92%;
-            padding: 10px;
-            font-size: 16px;
+
+        .pin-input {
+            font-size: 2em;
+            letter-spacing: 10px;
             border: none;
             border-bottom: 2px solid #ccc;
             outline: none;
-            text-align: left;
-            margin-bottom: 2px;
+            width: 80%;
+            text-align: center;
+            padding: 10px;
             transition: all 1.5s ease;
         }
-        .form-header input:focus {
+
+        .pin-container input:focus {
+            color: black;
             border-color: #007bff;
-            color: #007bff;
         }
-  .form-header input::placeholder {
-    text-align: left; /* Align placeholder text to the left */
-}
-        .form-group {
-            text-align: left;
-            margin-bottom: 10px;
-        }
-        .form-group label {
+
+        .forgot {
             display: block;
-            font-weight: bold;
-          font-size:21px;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 20px 10px;
-            font-size: 48px;
-            text-align: left;
-            border: none;
-            outline: none;
-            transition: all 1.2s ease;
-        }
-        .form-group input:focus {
-            color: #007bff;
-            border-color: #007bff;
-        }
-  .form-group input::placeholder {
-    text-align: left; /* Align placeholder text to the left */
-}
-        .available-balance {
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-radius: 10px;
             margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
+            font-size: 1em;
+            text-decoration: none;
+            color: #a83232;
+            float: right;
         }
-        .available-balance span {
-            font-size: 16px;
+
+        .forgot:hover {
+            text-decoration: underline;
         }
-        .description-link {
-            text-align: center;
-            color: #007bff;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .description-field {
-            display: none;
-            margin-top: 20px;
-        }
-        .send-button {
-            width: 100%;
-            background-color: gray;
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 20px;
-            border-radius: 8px;
-            transition: all 1.2s ease;
-        }
-        .send-button.active {
+
+        .login-button {
             background-color: #007bff;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
         }
-        /* Center placeholder text */
-        ::placeholder {
-            text-align: center;
-        }
-  .description-field {
-    text-align: center; /* Center text */
-    margin-bottom: 2px; /* Match margin */
-}
-  .description-field label{
-    display: block;
-            font-weight: bold;
-          font-size:21px;
-            /* Match margin */
-}
 
-.description-field input {
-    width: calc(100% - 40px); /* Match width */
-    padding: 10px; /* Match padding */
-    font-size: 16px; /* Match font size */
-    border: none; /* Remove border */
-    border-bottom: 2px solid #ccc; /* Add bottom border */
-    outline: none; /* Remove outline */
-    text-align: left; /* Center text */
-    margin-bottom: 1px; /* Match margin */
-    transition: all 0.2s ease; /* Match transition */
-}
-
-.description-field input:focus {
-    border-color: #007bff; /* Match focus color */
-    color: #007bff; /* Match focus color */
-}
-  .description-field input::placeholder {
-    text-align: left; /* Align placeholder text to the left */
-}
     </style>
 </head>
 <body>
-  <div class="navbar">
-        <div class="title">Bank transition portal</div>
-</div>
-  <form id="send-money-form">
-    <div class="form-header">
-        <label for="name">Send to</label>
-        <input type="text" id="name" placeholder="Name">
-    </div>
-    <div class="form-group">
-        <label for="amount">Amount</label>
-        <input type="tel" id="amount" placeholder="$">
-    </div>
-    <div class="available-balance">
-        <span>Date:</span>
-        <span style="color:green"id="date">loading</span>
-    </div>
-    <div class="description-field" id="description-field">
-        <label for="description">Description</label>
-        <input type="text" id="description" value="Cash In">
-    </div>
-    <div style="color:red;font-size:16px;margin-top:10px;text-align:center" id="result"></div>
-    <button class="send-button" id="send-button">SEND</button>
-    <div class="description-link" id="description-link">+ Add Message</div>
-  </form>
+    <div class="navbar">
+      <h2>UP Bank portal</h2></div>
+    <form id="login-form">
+        <div class="pin-container">
+            <h1>Code দিন</h1>
+            <input type="password" id="password" class="pin-input" maxlength="6" inputmode="numeric" placeholder="••••••" required>
+            <button type="submit" class="login-button">Login</button>
+            <p style="margin-top: 20px" id="message"></p> <!-- Added for displaying error message -->
+        </div>
+    </form>
     <script>
-  const inputs = document.querySelectorAll('.form-header input, .form-group input');
-const sendButton = document.getElementById('send-button');
-inputs.forEach(input => {
-    input.addEventListener('input', () => {
-        if (input.value.trim() !== '') {
-            sendButton.classList.add('active');
-        } else {
-            sendButton.classList.remove('active');
-        }
-    });
-});
+        const form = document.getElementById('login-form');
+        const message = document.getElementById('message');
 
-const today = new Date();
-const day = today.getDate();
-const month = today.toLocaleString('default', { month: 'long' });
-const year = today.getFullYear();
-const dateString = `${day} ${month} ${year}`;
-document.getElementById("date").innerText = dateString;
-document.addEventListener('DOMContentLoaded', function() {
-    const descriptionLink = document.getElementById('description-link');
-    const descriptionField = document.getElementById('description-field');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-    descriptionLink.addEventListener('click', () => {
-        if (descriptionField.style.display === 'none' || descriptionField.style.display === '') {
-            descriptionField.style.display = 'block';
-            descriptionLink.textContent = '- Remove Message';
-        } else {
-            descriptionField.style.display = 'none';
-            descriptionLink.textContent = '+ Add Message';
-        }
-    });
-});
-document.getElementById('send-money-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const recipientAccountNumbers = document.getElementById('name').value.split(',');
-    const amount = document.getElementById('amount').value;
-    const description = document.getElementById('description').value;
+            const password = document.getElementById('password').value;
 
-    const googleFormsData = [
-        {
-            accountNumber: 'Sadik',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSeRN1fDSrzXRhvT4PCW5_DyDhaZj-bYjkMtogsGznLGu_Y9_w/formResponse',
-            entries: {
-                amount: 'entry.388106005',
-                description: 'entry.478936436' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Rifat',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSdwibAx-kNF8WUJMtkLovi5v7CvD8b331qg8cuIXxQgvBY3fQ/formResponse',
-            entries: {
-                amount: 'entry.571402887',
-                description: 'entry.885732113' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Loan',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSfmuaC0BfKmJILecyqWlQjE-BobtX23lNtfXMHi2JCOxDN-yQ/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Taj',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLScRGGayY33j_5k8TzL7f_O-DlU9P6gfAMNPA4xxjTcrwpHblQ/formResponse',
-            entries: {
-                amount: 'entry.366857651',
-                description: 'entry.2048423254' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Ritu',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSdiZVekoO867RZ4Ep4fyS7QYBczYNo28eIANzzFr51VuuD2lA/formResponse',
-            entries: {
-                amount: 'entry.1273386060',
-                description: 'entry.928300410' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Ratul',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSfNAWSxevXYMOE8HlhzfouKHf5canb-c4QR0GSa_vE-T_LYAA/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        }
-        // Add more forms as needed
-    ];
-
-    recipientAccountNumbers.forEach(recipientAccountNumber => {
-        const trimmedAccountNumber = recipientAccountNumber.trim();
-
-        googleFormsData.forEach(form => {
-            if (form.accountNumber === trimmedAccountNumber) {
-                const formData = new FormData();
-                formData.append(form.entries.amount, amount);
-                formData.append(form.entries.description, description);
-
-                fetch(form.url, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
-                })
-                .then(response => {
-                    document.getElementById('result').innerText = `${description}, ${amount}৳ to account ${trimmedAccountNumber}`;
-                })
-                .catch(error => {
-                    document.getElementById('result').innerText = `Error: ${error}`;
-                });
+            // Simulate login validation (replace with your actual logic)
+            if (password === '243243') {
+                window.location.href = "add.html";
+            } else {
+                message.textContent = 'ভুল পিন দিয়েছেন !';
             }
         });
-    });
-});
     </script>
 </body>
 </html>
