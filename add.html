@@ -356,6 +356,28 @@ document.getElementById('send-money-form').addEventListener('submit', function(e
 }
 
 window.onload = takeData;
+        function getQueryParams() {
+            let params = {};
+            window.location.search.substring(1).split("&").forEach(function (pair) {
+                let [key, value] = pair.split("=");
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Function to fill the form with URL parameters
+        function fillForm() {
+            let params = getQueryParams();
+            if (params.name) {
+                document.getElementById('name').value = params.name;
+            }
+            if (params.amount) {
+                document.getElementById('amount').value = params.amount;
+            }
+        }
+
+        // Call the fillForm function when the page loads
+        window.onload = fillForm;
     </script>
 </body>
 </html>
