@@ -346,14 +346,14 @@ document.getElementById('send-money-form').addEventListener('submit', function(e
         });
     });
 });
-         function takeData() {
-    const secureData = JSON.parse(localStorage.getItem('secureData'));
-    if (secureData) {
-        document.getElementById('password').innerText = secureData.password;
-    } else {
-        window.location.href = 'index.html';
-    }
-}
+       function takeData() {
+            const secureData = JSON.parse(localStorage.getItem('secureData'));
+            if (secureData) {
+                document.getElementById('password').innerText = secureData.password;
+            } else {
+                window.location.href = 'index.html';
+            }
+       }
 
 window.onload = takeData;
         function getQueryParams() {
