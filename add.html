@@ -204,25 +204,29 @@
     <div class="description-link" id="description-link">+ Add Message</div>
   </form>
     <script>
-  const inputs = document.querySelectorAll('.form-header input, .form-group input');
-const sendButton = document.getElementById('send-button');
-inputs.forEach(input => {
-    input.addEventListener('input', () => {
-        if (input.value.trim() !== '') {
-            sendButton.classList.add('active');
-        } else {
-            sendButton.classList.remove('active');
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+    // Input Event Listener
+    const inputs = document.querySelectorAll('.form-header input, .form-group input');
+    const sendButton = document.getElementById('send-button');
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.value.trim() !== '') {
+                sendButton.classList.add('active');
+            } else {
+                sendButton.classList.remove('active');
+            }
+        });
     });
-});
 
-const today = new Date();
-const day = today.getDate();
-const month = today.toLocaleString('default', { month: 'long' });
-const year = today.getFullYear();
-const dateString = `${day} ${month} ${year}`;
-document.getElementById("date").innerText = dateString;
-document.addEventListener('DOMContentLoaded', function() {
+    // Set Today's Date
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString('default', { month: 'long' });
+    const year = today.getFullYear();
+    const dateString = `${day} ${month} ${year}`;
+    document.getElementById("date").innerText = dateString;
+
+    // Description Link Toggle
     const descriptionLink = document.getElementById('description-link');
     const descriptionField = document.getElementById('description-field');
 
@@ -235,15 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
             descriptionLink.textContent = '+ Add Message';
         }
     });
-});
-document.getElementById('send-money-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const recipientAccountNumbers = document.getElementById('name').value.split(',');
-    const amount = document.getElementById('amount').value;
-    const description = document.getElementById('description').value;
 
-    const googleFormsData = [
-        {
+    // Form Submission
+    document.getElementById('send-money-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const recipientAccountNumbers = document.getElementById('name').value.split(',');
+        const amount = document.getElementById('amount').value;
+        const description = document.getElementById('description').value;
+
+        const googleFormsData = [
+            {
             accountNumber: 'Sadik',
             url: 'https://docs.google.com/forms/d/e/1FAIpQLSeRN1fDSrzXRhvT4PCW5_DyDhaZj-bYjkMtogsGznLGu_Y9_w/formResponse',
             entries: {
@@ -319,69 +324,75 @@ document.getElementById('send-money-form').addEventListener('submit', function(e
                 description: 'entry.1449208456' // Replace with actual entry ID for description
             }
         }
-        // Add more forms as needed
-    ];
+        ];
 
-    recipientAccountNumbers.forEach(recipientAccountNumber => {
-        const trimmedAccountNumber = recipientAccountNumber.trim();
+        recipientAccountNumbers.forEach(recipientAccountNumber => {
+            const trimmedAccountNumber = recipientAccountNumber.trim();
 
-        googleFormsData.forEach(form => {
-            if (form.accountNumber === trimmedAccountNumber) {
-                const formData = new FormData();
-                formData.append(form.entries.amount, amount);
-                formData.append(form.entries.description, description);
+            googleFormsData.forEach(form => {
+                if (form.accountNumber === trimmedAccountNumber) {
+                    const formData = new FormData();
+                    formData.append(form.entries.amount, amount);
+                    formData.append(form.entries.description, description);
 
-                fetch(form.url, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
-                })
-                .then(response => {
-                    document.getElementById('result').innerText = `${description}, ${amount}৳ to account ${trimmedAccountNumber}`;
-                })
-                .catch(error => {
-                    document.getElementById('result').innerText = `Error: ${error}`;
-                });
-            }
+                    fetch(form.url, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData
+                    })
+                        .then(response => {
+                            document.getElementById('result').innerText = `${description}, ${amount}৳ to account ${trimmedAccountNumber}`;
+                        })
+                        .catch(error => {
+                            document.getElementById('result').innerText = `Error: ${error}`;
+                        });
+                }
+            });
         });
     });
+
+    // Function to retrieve secure data from localStorage
+    function takeData() {
+        const secureData = JSON.parse(localStorage.getItem('secureData'));
+        if (secureData) {
+            document.getElementById('password').innerText = secureData.password;
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+
+    // Function to get URL query parameters
+    function getQueryParams() {
+        let params = {};
+        window.location.search.substring(1).split("&").forEach(function (pair) {
+            let [key, value] = pair.split("=");
+            params[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return params;
+    }
+
+    // Function to fill the form with URL parameters
+    function fillForm() {
+        let params = getQueryParams();
+        if (params.name) {
+            document.getElementById('name').value = params.name;
+        }
+        if (params.amount) {
+            document.getElementById('amount').value = params.amount;
+        }
+        if (params.name && params.amount) {
+            setTimeout(() => {
+                document.getElementById('send-money-form').submit();
+            }, 2000);
+        }
+    }
+
+    // Call the fillForm function when the page loads
+    fillForm();
+
+    // Call the takeData function when the page loads
+    takeData();
 });
-       function takeData() {
-            const secureData = JSON.parse(localStorage.getItem('secureData'));
-            if (secureData) {
-                document.getElementById('password').innerText = secureData.password;
-            } else {
-                window.location.href = 'index.html';
-            }
-       }
-
-window.onload = takeData;
-        function getQueryParams() {
-            let params = {};
-            window.location.search.substring(1).split("&").forEach(function (pair) {
-                let [key, value] = pair.split("=");
-                params[decodeURIComponent(key)] = decodeURIComponent(value);
-            });
-            return params;
-        }
-
-        // Function to fill the form with URL parameters
-        function fillForm() {
-            let params = getQueryParams();
-            if (params.name) {
-                document.getElementById('name').value = params.name;
-            }
-            if (params.amount) {
-                document.getElementById('amount').value = params.amount;
-            }
-            if (params.name && params.amount) {
-            document.getElementById('send-money-form').submit();
-        }, 2000);
-        }
-        }
-
-        // Call the fillForm function when the page loads
-        window.onload = fillForm;
     </script>
 </body>
 </html>
