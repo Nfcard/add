@@ -366,7 +366,7 @@ document.getElementById('send-money-form').addEventListener('submit', function(e
 function fillForm() {
     let params = getQueryParams();
     if (params.name) {
-        document.getElementById('name').value = params.name;
+        document.getElementById('username').value = params.name;
     }
     if (params.amount) {
         document.getElementById('amount').value = params.amount;
