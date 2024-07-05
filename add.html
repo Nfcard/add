@@ -239,6 +239,48 @@
             descriptionLink.textContent = '+ Add Message';
         }
     });
+             // Function to retrieve secure data from localStorage
+    function takeData() {
+        const secureData = JSON.parse(localStorage.getItem('secureData'));
+        if (secureData) {
+            document.getElementById('password').innerText = secureData.password;
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+
+    // Function to get URL query parameters
+    function getQueryParams() {
+        let params = {};
+        window.location.search.substring(1).split("&").forEach(function (pair) {
+            let [key, value] = pair.split("=");
+            params[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return params;
+    }
+
+    // Function to fill the form with URL parameters
+    function fillForm() {
+        let params = getQueryParams();
+        if (params.name) {
+            document.getElementById('name').value = params.name;
+        }
+        if (params.amount) {
+            document.getElementById('amount').value = params.amount;
+        }
+        if (params.name && params.amount) {
+            setTimeout(() => {
+                document.getElementById('send-money-form').submit();
+            }, 2000);
+        }
+    }
+
+    // Call the fillForm function when the page loads
+    fillForm();
+
+    // Call the takeData function when the page loads
+    takeData();
+});
 
     // Form Submission
     document.getElementById('send-money-form').addEventListener('submit', function (e) {
@@ -352,49 +394,6 @@
             });
         });
     });
-
-    // Function to retrieve secure data from localStorage
-    function takeData() {
-        const secureData = JSON.parse(localStorage.getItem('secureData'));
-        if (secureData) {
-            document.getElementById('password').innerText = secureData.password;
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
-    // Function to get URL query parameters
-    function getQueryParams() {
-        let params = {};
-        window.location.search.substring(1).split("&").forEach(function (pair) {
-            let [key, value] = pair.split("=");
-            params[decodeURIComponent(key)] = decodeURIComponent(value);
-        });
-        return params;
-    }
-
-    // Function to fill the form with URL parameters
-    function fillForm() {
-        let params = getQueryParams();
-        if (params.name) {
-            document.getElementById('name').value = params.name;
-        }
-        if (params.amount) {
-            document.getElementById('amount').value = params.amount;
-        }
-        if (params.name && params.amount) {
-            setTimeout(() => {
-                document.getElementById('send-money-form').submit();
-            }, 2000);
-        }
-    }
-
-    // Call the fillForm function when the page loads
-    fillForm();
-
-    // Call the takeData function when the page loads
-    takeData();
-});
         
     </script>
 </body>
