@@ -185,7 +185,7 @@
   <form id="send-money-form">
     <div class="form-header">
         <label for="name">Send to</label>
-        <input type="text" id="name" placeholder="Name" name="username" >
+        <input type="text" id="username" placeholder="username" name="username" >
     </div>
     <div class="form-group">
         <label for="amount">Amount</label>
@@ -204,10 +204,11 @@
     <div class="description-link" id="description-link">+ Add Message</div>
   </form>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-    // Input Event Listener
+  document.addEventListener('DOMContentLoaded', () => {
     const inputs = document.querySelectorAll('.form-header input, .form-group input');
     const sendButton = document.getElementById('send-button');
+
+    // Activate send button if any input is filled
     inputs.forEach(input => {
         input.addEventListener('input', () => {
             if (input.value.trim() !== '') {
@@ -218,7 +219,7 @@
         });
     });
 
-    // Set Today's Date
+    // Set todays date
     const today = new Date();
     const day = today.getDate();
     const month = today.toLocaleString('default', { month: 'long' });
@@ -226,7 +227,7 @@
     const dateString = `${day} ${month} ${year}`;
     document.getElementById("date").innerText = dateString;
 
-    // Description Link Toggle
+    // Description link toggle
     const descriptionLink = document.getElementById('description-link');
     const descriptionField = document.getElementById('description-field');
 
@@ -239,7 +240,8 @@
             descriptionLink.textContent = '+ Add Message';
         }
     });
-             // Function to retrieve secure data from localStorage
+
+    // Function to retrieve secure data from localStorage
     function takeData() {
         const secureData = JSON.parse(localStorage.getItem('secureData'));
         if (secureData) {
@@ -262,112 +264,110 @@
     // Function to fill the form with URL parameters
     function fillForm() {
         let params = getQueryParams();
-        if (params.name) {
-            document.getElementById('name').value = params.name;
+        console.log("URL Parameters:", params); // Debugging line
+        if (params.username) {
+            document.getElementById('username').value = params.username;
         }
         if (params.amount) {
             document.getElementById('amount').value = params.amount;
         }
-        if (params.name && params.amount) {
+        if (params.username && params.amount) {
             setTimeout(() => {
-                document.getElementById('send-money-form').submit();
+                submitForm(params.username, params.amount);
             }, 2000);
         }
     }
 
-    // Call the fillForm function when the page loads
+    // Call the functions when the page loads
     fillForm();
-
-    // Call the takeData function when the page loads
     takeData();
-});
 
-    // Form Submission
-    document.getElementById('send-money-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const recipientAccountNumbers = document.getElementById('name').value.split(',');
-        const amount = document.getElementById('amount').value;
+    // Function to submit the form data
+    function submitForm(username, amount) {
+        const recipientAccountNumbers = username.split(',');
         const description = document.getElementById('description').value;
 
         const googleFormsData = [
             {
-            accountNumber: 'Sadik',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSeRN1fDSrzXRhvT4PCW5_DyDhaZj-bYjkMtogsGznLGu_Y9_w/formResponse',
-            entries: {
-                amount: 'entry.388106005',
-                description: 'entry.478936436' // Replace with actual entry ID for description
+                accountNumber: 'Sadik',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSeRN1fDSrzXRhvT4PCW5_DyDhaZj-bYjkMtogsGznLGu_Y9_w/formResponse',
+                entries: {
+                    amount: 'entry.388106005',
+                    description: 'entry.478936436' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'Rifat',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSdwibAx-kNF8WUJMtkLovi5v7CvD8b331qg8cuIXxQgvBY3fQ/formResponse',
+                entries: {
+                    amount: 'entry.571402887',
+                    description: 'entry.885732113' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'Loan',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSfmuaC0BfKmJILecyqWlQjE-BobtX23lNtfXMHi2JCOxDN-yQ/formResponse',
+                entries: {
+                    amount: 'entry.1522107311',
+                    description: 'entry.1449208456' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'Taj',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLScRGGayY33j_5k8TzL7f_O-DlU9P6gfAMNPA4xxjTcrwpHblQ/formResponse',
+                entries: {
+                    amount: 'entry.366857651',
+                    description: 'entry.2048423254' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'Ritu',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSdiZVekoO867RZ4Ep4fyS7QYBczYNo28eIANzzFr51VuuD2lA/formResponse',
+                entries: {
+                    amount: 'entry.1273386060',
+                    description: 'entry.928300410' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'user1',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSd53A4ma9E9rVjyg5bXrJnneaITj26939ie3aPXudi-EVkbig/formResponse',
+                entries: {
+                    amount: 'entry.1522107311',
+                    description: 'entry.1449208456' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'user2',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSdpFVGyWcmC6PGs8wbFU9IihzUT1olphC-D-mdOVaJjQvNs1Q/formResponse',
+                entries: {
+                    amount: 'entry.1522107311',
+                    description: 'entry.1449208456' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'user3',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSez19H6vm8kLmvRV33WPadkuscVBjjvku0pIeZKNSO7gpV-hA/formResponse',
+                entries: {
+                    amount: 'entry.1522107311',
+                    description: 'entry.1449208456' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'user4',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLScuAspEw6MJNhkI8tPYKCHZhRfS6F3n15EElqu73AzMqjBhSA/formResponse',
+                entries: {
+                    amount: 'entry.1522107311',
+                    description: 'entry.1449208456' // Replace with actual entry ID for description
+                }
+            },
+            {
+                accountNumber: 'Ratul',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSfNAWSxevXYMOE8HlhzfouKHf5canb-c4QR0GSa_vE-T_LYAA/formResponse',
+                entries: {
+                    amount: 'entry.1522107311',
+                    description: 'entry.1449208456' // Replace with actual entry ID for description
+                }
             }
-        },
-        {
-            accountNumber: 'Rifat',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSdwibAx-kNF8WUJMtkLovi5v7CvD8b331qg8cuIXxQgvBY3fQ/formResponse',
-            entries: {
-                amount: 'entry.571402887',
-                description: 'entry.885732113' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Loan',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSfmuaC0BfKmJILecyqWlQjE-BobtX23lNtfXMHi2JCOxDN-yQ/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Taj',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLScRGGayY33j_5k8TzL7f_O-DlU9P6gfAMNPA4xxjTcrwpHblQ/formResponse',
-            entries: {
-                amount: 'entry.366857651',
-                description: 'entry.2048423254' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Ritu',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSdiZVekoO867RZ4Ep4fyS7QYBczYNo28eIANzzFr51VuuD2lA/formResponse',
-            entries: {
-                amount: 'entry.1273386060',
-                description: 'entry.928300410' // Replace with actual entry ID for description
-            }
-        },{
-            accountNumber: 'user1',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSd53A4ma9E9rVjyg5bXrJnneaITj26939ie3aPXudi-EVkbig/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        },{
-            accountNumber: 'user2',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSdpFVGyWcmC6PGs8wbFU9IihzUT1olphC-D-mdOVaJjQvNs1Q/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        },{
-            accountNumber: 'user3',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSez19H6vm8kLmvRV33WPadkuscVBjjvku0pIeZKNSO7gpV-hA/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        },{
-            accountNumber: 'user4',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLScuAspEw6MJNhkI8tPYKCHZhRfS6F3n15EElqu73AzMqjBhSA/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        },
-        {
-            accountNumber: 'Ratul',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSfNAWSxevXYMOE8HlhzfouKHf5canb-c4QR0GSa_vE-T_LYAA/formResponse',
-            entries: {
-                amount: 'entry.1522107311',
-                description: 'entry.1449208456' // Replace with actual entry ID for description
-            }
-        }
-        // Add more forms
-            // ... (Your googleFormsData array as given)
         ];
 
         recipientAccountNumbers.forEach(recipientAccountNumber => {
@@ -379,22 +379,29 @@
                     formData.append(form.entries.amount, amount);
                     formData.append(form.entries.description, description);
 
+                    // Debugging line to check the form data
+                    for (let pair of formData.entries()) {
+                        console.log(pair[0] + ': ' + pair[1]);
+                    }
+
                     fetch(form.url, {
                         method: 'POST',
                         mode: 'no-cors',
                         body: formData
                     })
-                        .then(response => {
-                            document.getElementById('result').innerText = `${description}, ${amount}৳ to account ${trimmedAccountNumber}`;
-                        })
-                        .catch(error => {
-                            document.getElementById('result').innerText = `Error: ${error}`;
-                        });
+                    .then(response => {
+                        console.log(`Submitted to ${form.accountNumber}`);
+                        document.getElementById('result').innerText = `${description}, ${amount}৳ to account ${trimmedAccountNumber}`;
+                    })
+                    .catch(error => {
+                        console.error(`Error submitting to ${form.accountNumber}: ${error}`);
+                        document.getElementById('result').innerText = `Error: ${error}`;
+                    });
                 }
             });
         });
-    });
-        
+    }
+}); 
     </script>
 </body>
 </html>
