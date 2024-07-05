@@ -354,8 +354,6 @@ document.getElementById('send-money-form').addEventListener('submit', function(e
                 window.location.href = 'index.html';
             }
        }
-
-window.onload = takeData;
         function getQueryParams() {
             let params = {};
             window.location.search.substring(1).split("&").forEach(function (pair) {
@@ -377,7 +375,11 @@ window.onload = takeData;
         }
 
         // Call the fillForm function when the page loads
-        window.onload = fillForm;
+        window.onload = function() {
+            takeData();
+    fillForm();
+    document.getElementById('send-money-form').submit();
+};
     </script>
 </body>
 </html>
