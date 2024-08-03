@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>245 Bonus</title>
+    <title>ADM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f8f0fc;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,7 +18,7 @@
             position: relative;
         }
         .claim-button1 {
-            background-color: #83aff0;
+            background-color: #f8f0fc;
             color: black;
             border: none;
             border-radius: 25px;
@@ -31,8 +31,6 @@
         .form-container {
             background-color: #fff;
             padding: 20px 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
             width: 300px;
         }
         .form-container h2 {
@@ -55,7 +53,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .form-container input[type="submit"] {
+        .form-container button {
             width: 50%;
             padding: 10px;
             background-color: #eb3480;
@@ -66,8 +64,9 @@
             cursor: pointer;
             display: block;
             margin: 0 auto;
+            display: none;
         }
-        .form-container input[type="submit"]:hover {
+        .form-container button:hover {
             background-color: #45a049;
         }
         .confirmation-message {
@@ -80,54 +79,151 @@
     <button class="claim-button1" onclick="window.history.back()"><i class="fas fa-circle-arrow-left"></i></button>
 
     <div class="form-container">
-        <h2>প্রথম জন হবে বিজয়ী</h2>
-        <form id="bonusForm">
-            <label for="username">Account:</label>
-            <input type="tel" id="username" placeholder="CVV / Name" required>
-            <input type="submit" value="Claim" id="submit-button">
+        <h2>Bonus</h2>
+        <form id="money-form">
+            <label for="code"></label>
+            <input type="tel" id="code" placeholder="cvv" required>
+            <button id="send-button">Claim</button>
         </form>
-        <div id="confirmation-message" class="confirmation-message" style="display: none;"></div>
+        <div id="result" class="confirmation-message"></div>
     </div>
 
     <script>
-        document.getElementById('bonusForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            var accountNumber = document.getElementById('username').value;
-            var bonusCode = "Bonus";
-            var googleFormsData = [
+document.addEventListener("DOMContentLoaded", function() {
+    let fetchedDataValue1, fetchedDataValue2;
+
+    function fetchData1() {
+        const url = 'https://docs.google.com/spreadsheets/u/0/d/1U72BoHdSqC1E_orTmcBYDShbQfErO9X-wQrPyBTzkTs/htmlview';
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
+                const cellElement = doc.querySelector('table tbody tr:nth-child(3) td:nth-child(2)');
+                if (cellElement) {
+                    const cellText = cellElement.innerText || cellElement.textContent;
+                    fetchedDataValue1 = parseFloat(cellText.trim());
+                    console.log('Fetched data1:', fetchedDataValue1);
+                } else {
+                    console.error('Error: Cell element not found for data1');
+                }
+            })
+            .catch(error => console.error('Error fetching data1:', error));
+    }
+
+    function fetchData2() {
+        const url = 'https://docs.google.com/spreadsheets/u/0/d/1U72BoHdSqC1E_orTmcBYDShbQfErO9X-wQrPyBTzkTs/htmlview';
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
+                const cellElement = doc.querySelector('table tbody tr:nth-child(3) td:nth-child(3)');
+                if (cellElement) {
+                    const cellText = cellElement.innerText || cellElement.textContent;
+                    fetchedDataValue2 = parseFloat(cellText.trim());
+                    console.log('Fetched data2:', fetchedDataValue2);
+                } else {
+                    console.error('Error: Cell element not found for data2');
+                }
+            })
+            .catch(error => console.error('Error fetching data2:', error));
+    }
+
+    fetchData1();
+    fetchData2();
+
+    document.getElementById('money-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const button = document.getElementById('send-button');
+        button.style.display = 'none';
+
+        const code = document.getElementById('code').value;
+        const amount = fetchedDataValue1;
+        const amount2 = '-' + amount;  // Negative value of fetchedDataValue1
+        const description = 'Bonus [Auto]';
+
+        let googleFormsData = [];
+
+        const surl = localStorage.getItem('surl');
+        const saentry = localStorage.getItem('saentry');
+        const sdentry = localStorage.getItem('sdentry');
+
+        const storedData2 = parseFloat(localStorage.getItem('fetchedData2'));
+
+        if (fetchedDataValue2 === storedData2) {
+            console.log('Already collected, try again later.');
+            document.getElementById('result').innerText = 'Already collected, try again later.';
+            button.style.display = 'block';
+            return;
+        }
+
+        if (['243', '143', '567', '678', '789'].includes(code)) {
+            googleFormsData = [
                 {
+                    url: surl,
+                    entries: {
+                        amount: saentry,
+                        description: sdentry
+                    }
+                }, {
                     url: 'https://docs.google.com/forms/d/e/1FAIpQLScVz3veBlhP7zYsKPa5gem4u_H2bqftYiICVXON30VjxWMJOw/formResponse',
                     entries: {
-                        account: 'entry.31441046',
-                        bonusCode: 'entry.1545135281'
+                        amount: 'entry.1545135281',
+                        description: 'entry.31441046'
                     }
                 }
             ];
 
-            googleFormsData.forEach((form) => {
-                const formData = new FormData();
-                formData.append(form.entries.account, accountNumber);
-                formData.append(form.entries.bonusCode, bonusCode);
+            localStorage.setItem('fetchedData2', fetchedDataValue2);
+        } else {
+            console.log('Account number is not recognized. Form submission aborted.');
+            document.getElementById('result').innerText = 'Account number is not recognized. Form submission aborted.';
+            button.style.display = 'none';
+            return;
+        }
 
-                fetch(form.url, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: new URLSearchParams(formData)
+        googleFormsData.forEach((form, index) => {
+            const formData = new FormData();
+            formData.append(form.entries.amount, form === googleFormsData[0] ? amount : amount2);
+            formData.append(form.entries.description, form === googleFormsData[0] ? description : code);
+
+            fetch(form.url, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: new URLSearchParams(formData)
+            })
+                .then(response => {
+                    document.getElementById('result').innerText = `আপনার একাউন্টে ${amount}৳ টাকা Bonus-In হয়েছে ✅`;
                 })
-                .then(() => {
-                    var submitButton = document.getElementById('submit-button');
-                    submitButton.style.display = 'none';
-                    var confirmationMessage = document.getElementById('confirmation-message');
-                    confirmationMessage.textContent = 'hey! Your bonus has been marked. 😉.';
-                    confirmationMessage.style.display = 'block';
-                })
-                .catch((error) => {
-                    alert('Something went wrong. Please try again.');
-                    console.error('Error:', error);
+                .catch(error => {
+                    document.getElementById('result').innerText = `Error: ${error}`;
                 });
-            });
         });
+
+        button.style.display = 'block';
+    });
+
+    // Timer functionality
+    let countdown = 5;
+    const button = document.getElementById('send-button');
+const butto1n = document.getElementById('result');
+
+    const timer = setInterval(() => {
+        if (countdown > 0) {
+            butto1n.innerText = `Wait ${countdown}s`;
+            butto1n.style.color = 'red'
+            countdown--;
+        } else {
+            clearInterval(timer);
+            butto1n.innerText = '';
+            button.style.display = 'block';
+        }
+    }, 1000);
+});
     </script>
 </body>
 </html>
