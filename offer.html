@@ -15,11 +15,11 @@
             height: 100vh;
             margin: 0;
             position: relative;
-        opacity: 0;
-          transform: translateY(20px);
+            opacity: 0;
+            transform: translateY(20px);
             animation: fadeIn .7s forwards;
         }
-  @keyframes fadeIn {
+        @keyframes fadeIn {
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -40,9 +40,9 @@
             background-color: #fff;
             padding: 20px 40px;
             width: auto;
-            min-width:200px;
-            border:2px dotted #f62f5e;
-            border-radius:25px;
+            min-width: 280px;
+            border: 2px dotted #f62f5e;
+            border-radius: 25px;
         }
         .form-container h2 {
             text-align: center;
@@ -57,7 +57,7 @@
             margin-bottom: 8px;
             font-weight: bold;
         }
-     @keyframes rotateIn {
+        @keyframes rotateIn {
             from {
                 opacity: 0;
                 transform: rotateX(90deg);
@@ -75,22 +75,22 @@
             transform-origin: bottom;
             animation: rotateIn 0.5s ease forwards;
         }
-.letter-wave {
-    display: inline-block;
-    opacity: 0;
-    animation: wave.4s ease-in-out forwards;
-}
+        .letter-wave {
+            display: inline-block;
+            opacity: 0;
+            animation: wave .4s ease-in-out forwards;
+        }
 
-@keyframes wave {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        @keyframes wave {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .form-container input[type="tel"] {
             width: 100%;
@@ -98,12 +98,11 @@
             margin-bottom: 20px;
             border: 1px solid #000;
             border-radius: 5px;
-            outline:none;
+            outline: none;
         }
-    input[type="tel"]:focus{
-        border:2px solid #f62f5e;
-       
-    }
+        input[type="tel"]:focus {
+            border: 2px solid #f62f5e;
+        }
         .form-container button {
             width: 50%;
             padding: 10px;
@@ -123,6 +122,7 @@
         .confirmation-message {
             text-align: center;
             color: green;
+            margin:10px;
         }
     </style>
 </head>
@@ -140,99 +140,106 @@
     </div>
 
     <script>
-document.addEventListener("DOMContentLoaded", function() {
-    let fetchedDataValue1, fetchedDataValue2;
+        document.addEventListener("DOMContentLoaded", function() {
+            let fetchedDataValue1, fetchedDataValue2;
 
-    function fetchData1() {
-        const url = 'https://docs.google.com/spreadsheets/u/0/d/1U72BoHdSqC1E_orTmcBYDShbQfErO9X-wQrPyBTzkTs/htmlview';
+            function fetchData1() {
+                const url = 'https://docs.google.com/spreadsheets/u/0/d/1U72BoHdSqC1E_orTmcBYDShbQfErO9X-wQrPyBTzkTs/htmlview';
 
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, 'text/html');
-                const cellElement = doc.querySelector('table tbody tr:nth-child(3) td:nth-child(2)');
-                if (cellElement) {
-                    const cellText = cellElement.innerText || cellElement.textContent;
-                    fetchedDataValue1 = parseFloat(cellText.trim());
-                    console.log('Fetched data1:', fetchedDataValue1);
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, 'text/html');
+                        const cellElement = doc.querySelector('table tbody tr:nth-child(3) td:nth-child(2)');
+                        if (cellElement) {
+                            const cellText = cellElement.innerText || cellElement.textContent;
+                            fetchedDataValue1 = parseFloat(cellText.trim());
+                            console.log('Fetched data1:', fetchedDataValue1);
+                        } else {
+                            console.error('Error: Cell element not found for data1');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching data1:', error));
+            }
+
+            function fetchData2() {
+                const url = 'https://docs.google.com/spreadsheets/u/0/d/1U72BoHdSqC1E_orTmcBYDShbQfErO9X-wQrPyBTzkTs/htmlview';
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, 'text/html');
+                        const cellElement = doc.querySelector('table tbody tr:nth-child(3) td:nth-child(3)');
+                        if (cellElement) {
+                            const cellText = cellElement.innerText || cellElement.textContent;
+                            fetchedDataValue2 = parseFloat(cellText.trim());
+                            console.log('Fetched data2:', fetchedDataValue2);
+                        } else {
+                            console.error('Error: Cell element not found for data2');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching data2:', error));
+            }
+
+            fetchData1();
+            fetchData2();
+
+            document.getElementById('money-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const button = document.getElementById('send-button');
+                button.style.display = 'none';
+
+                const code = document.getElementById('code').value;
+                const amount = 5;  // Amount value set to 5
+                const amount2 = '-' + amount;  // Negative value of fetchedDataValue1
+                const description = 'Bonus [Auto]';
+
+                let googleFormsData = [];
+
+                const surl = localStorage.getItem('surl');
+                const saentry = localStorage.getItem('saentry');
+                const sdentry = localStorage.getItem('sdentry');
+
+                const storedData2 = parseFloat(localStorage.getItem('fetchedData2'));
+
+ if (fetchedDataValue2 === storedData2) {
+                    console.log('Already collected, try again later.');
+                    document.getElementById('result').innerText = 'Already collected, try again later.';
+                    button.style.display = 'block';
+                    return;
+                }
+                // Check if the amount is greater than fetchedDataValue1
+                if (amount2 >= fetchedDataValue1) {
+                    console.log('Amount must be greater than fetched value.');
+                    document.getElementById('result').innerText = 'দুঃখিত, এই মুহূর্তে কোনো বোনাস নেই। ';
+                    button.style.display = 'block';
+                    return;
+                }
+
+                if (['243', '143', '567', '678', '789'].includes(code)) {
+                    googleFormsData = [
+                        {
+                            url: surl,
+                            entries: {
+                                amount: saentry,
+                                description: sdentry
+                            }
+                        }, {
+                            url: 'https://docs.google.com/forms/d/e/1FAIpQLScVz3veBlhP7zYsKPa5gem4u_H2bqftYiICVXON30VjxWMJOw/formResponse',
+                            entries: {
+                                amount: 'entry.1545135281',
+                                description: 'entry.31441046'
+                            }
+                        }
+                    ];
+
+                    localStorage.setItem('fetchedData2', fetchedDataValue2);
                 } else {
-                    console.error('Error: Cell element not found for data1');
-                }
-            })
-            .catch(error => console.error('Error fetching data1:', error));
-    }
-
-    function fetchData2() {
-        const url = 'https://docs.google.com/spreadsheets/u/0/d/1U72BoHdSqC1E_orTmcBYDShbQfErO9X-wQrPyBTzkTs/htmlview';
-
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, 'text/html');
-                const cellElement = doc.querySelector('table tbody tr:nth-child(3) td:nth-child(3)');
-                if (cellElement) {
-                    const cellText = cellElement.innerText || cellElement.textContent;
-                    fetchedDataValue2 = parseFloat(cellText.trim());
-                    console.log('Fetched data2:', fetchedDataValue2);
-                } else {
-                    console.error('Error: Cell element not found for data2');
-                }
-            })
-            .catch(error => console.error('Error fetching data2:', error));
-    }
-
-    fetchData1();
-    fetchData2();
-
-    document.getElementById('money-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const button = document.getElementById('send-button');
-        button.style.display = 'none';
-
-        const code = document.getElementById('code').value;
-        const amount = fetchedDataValue1;
-        const amount2 = '-' + amount;  // Negative value of fetchedDataValue1
-        const description = 'Bonus [Auto]';
-
-        let googleFormsData = [];
-
-        const surl = localStorage.getItem('surl');
-        const saentry = localStorage.getItem('saentry');
-        const sdentry = localStorage.getItem('sdentry');
-
-        const storedData2 = parseFloat(localStorage.getItem('fetchedData2'));
-
-        if (fetchedDataValue2 === storedData2) {
-            console.log('Already collected, try again later.');
-            document.getElementById('result').innerText = 'Already collected, try again later.';
-            button.style.display = 'block';
-            return;
-        }
-
-        if (['243', '143', '567', '678', '789'].includes(code)) {
-            googleFormsData = [
-                {
-                    url: surl,
-                    entries: {
-                        amount: saentry,
-                        description: sdentry
-                    }
-                }, {
-                    url: 'https://docs.google.com/forms/d/e/1FAIpQLScVz3veBlhP7zYsKPa5gem4u_H2bqftYiICVXON30VjxWMJOw/formResponse',
-                    entries: {
-                        amount: 'entry.1545135281',
-                        description: 'entry.31441046'
-                    }
-                }
-            ];
-
-            localStorage.setItem('fetchedData2', fetchedDataValue2);
-        } else {
-            console.log('Account number is not recognized. Form submission aborted.');
-            document.getElementById('result').innerText = 'Account number is not recognized. Form submission aborted.';
+                    console.log('Account number is not recognized. Form submission aborted.');
+                    document.getElementById('result').innerText = 'Account number is not recognized. Form submission aborted.';
             button.style.display = 'none';
             return;
         }
@@ -248,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: new URLSearchParams(formData)
             })
                 .then(response => {
-                    document.getElementById('result').innerText = `আপনার একাউন্টে ${amount}৳ টাকা Bonus-In হয়েছে ✅`;
+                    document.getElementById('result').innerText = `আপনার একাউন্টে ${amount}৳ টাকা Bonus যুক্ত  হয়েছে ✅`;
                 })
                 .catch(error => {
                     document.getElementById('result').innerText = `Error: ${error}`;
@@ -266,11 +273,12 @@ document.addEventListener("DOMContentLoaded", function() {
         if (countdown > 0) {
             xy = `Wait ${countdown}s`;
             animateText(xy, 'result', 'letter');
-            result.style.color = 'red'
+            result.style.color = 'red';
             countdown--;
         } else {
             clearInterval(timer);
             result.innerText = '';
+            result.style.color = 'green';
             button.style.display = 'block';
         }
     }, 1000);
