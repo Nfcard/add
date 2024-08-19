@@ -318,8 +318,13 @@ document.getElementById('send-money-form').addEventListener('submit', function(e
                 amount: 'entry.1522107311',
                 description: 'entry.1449208456' // Replace with actual entry ID for description
             }
-        }
-        // Add more forms as needed
+        },{ 
+            url: 'https://docs.google.com/forms/d/e/1FAIpQLSdcI8OW5HEFDIE4Vm_94aEoyrqejw18j3oGr0SXbnlveitjgw/formResponse',
+                            entries: {
+                                amount: 'entry.1522107311',
+                                description: 'entry.1449208456'
+                            }
+        }// Add more forms as needed
     ];
 
     recipientAccountNumbers.forEach(recipientAccountNumber => {
